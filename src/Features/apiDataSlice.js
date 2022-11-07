@@ -1,17 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getPeople = createAsyncThunk('people/getPeople', async (_, thunkApi) => {
-    console.log("hello");
-  const response = await axios.get("https://jsonplaceholder.typicode.com/users");
-  console.log("response"+response.data[0].data);
-  return response.data.map((user)=>user.address.street);
+
+
+export const getPeople = createAsyncThunk('people/getPeople', async (username) => {
+  console.log("in getp");
+ 
+  const response = await axios.get(`https://api.github.com/users/${username}/repos`);
+
+  console.log("response"+ response.data.map((d)=>d.name));
+  return response.data;
 });
 
 const initialState = {
   data: [],
   loading: false,
-  // status: "",
+  status: "",
 };
  const PeopleSlice = createSlice({
   name: "People",
